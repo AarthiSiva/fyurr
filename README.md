@@ -1,2 +1,2 @@
-# fyurr
-Fyurr - Artists and Venues Booking App
+# Udacity projects
+This repository is for managing changes in udacity nanodegree projects
