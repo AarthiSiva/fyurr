@@ -18,6 +18,7 @@ migrate = Migrate(app,db)
 # Models.
 #----------------------------------------------------------------------------#
 
+#DB Model: Venue
 class Venue(db.Model):
     __tablename__ = 'venue'
 
@@ -35,8 +36,16 @@ class Venue(db.Model):
     seeking_description = db.Column(db.String(120))
     shows = db.relationship('Show', backref='venue', lazy=True)
 
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate
+    def create(self):
+        db.session.add(self)
+        db.session.commit()
+    
+    def delete(self):
+        venue = Venue.query.get(self)
+        db.session.delete(venue)
+        db.session.commit()
 
+#DB Model: Artist
 class Artist(db.Model):
     __tablename__ = 'artist'
 
@@ -53,10 +62,11 @@ class Artist(db.Model):
     seeking_description = db.Column(db.String(120))
     shows = db.relationship('Show', backref='artist', lazy=True)
 
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate
+    def create(self):
+        db.session.add(self)
+        db.session.commit()
 
-# TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
-
+#DB model: Show
 class Show(db.Model):
     __tablename__ = 'show'
 
@@ -64,3 +74,7 @@ class Show(db.Model):
     start_time = db.Column(db.DateTime)
     artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'), nullable=False)
     venue_id = db.Column(db.Integer, db.ForeignKey('venue.id'), nullable = False)
+
+    def create(self):
+        db.session.add(self)
+        db.session.commit()
